@@ -38,7 +38,7 @@ public class GenreController : Controller
         if (!_genreRepository.GenreExists(genreId))
             return NotFound();
 
-        var genre = _mapper.Map<NovelDto>(_genreRepository.GetGenre(genreId));
+        var genre = _mapper.Map<GenreDto>(_genreRepository.GetGenre(genreId));
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

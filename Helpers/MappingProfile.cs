@@ -10,5 +10,6 @@ public class MappingProfile : Profile
     {
         CreateMap<Novel, NovelDto>();
         CreateMap<Genre, GenreDto>();
+        CreateMap<Country, CountryDto>();
     }
 }
