@@ -21,6 +21,7 @@ public class Seed
                         Novel = new Novel()
                         {
                             Title = "Ascendance of a Bookworm",
+                            Cover = "https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Ascendance_of_a_Bookworm_light_novel_volume_1_cover.jpg/220px-Ascendance_of_a_Bookworm_light_novel_volume_1_cover.jpg",
                             Published = new DateTime(2015,11,1),
                             NovelGenres = new List<NovelGenre>()
                             {
@@ -51,6 +52,7 @@ public class Seed
                         Novel = new Novel()
                         {
                             Title = "Solo Leveling",
+                            Cover = "https://m.media-amazon.com/images/I/51gxEPhWQvL.jpg",
                             Published = new DateTime(2014,2,14),
                             NovelGenres = new List<NovelGenre>()
                             {
