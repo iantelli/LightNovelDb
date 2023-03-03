@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using LightNovelDb.Data;
+﻿using LightNovelDb.Data;
 using LightNovelDb.Interfaces;
 using LightNovelDb.Models;
 
@@ -8,11 +7,9 @@ namespace LightNovelDb.Repository;
 public class CountryRepository : ICountryRepository
 {
     private readonly DataContext _context;
-    private readonly IMapper _mapper;
-    public CountryRepository(DataContext context, IMapper mapper)
+    public CountryRepository(DataContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
     public ICollection<Country> GetCountries()
     {

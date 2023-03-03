@@ -11,5 +11,8 @@ public class MappingProfile : Profile
         CreateMap<Novel, NovelDto>();
         CreateMap<Genre, GenreDto>();
         CreateMap<Country, CountryDto>();
+        CreateMap<Author, AuthorDto>();
+        CreateMap<Review, ReviewDto>();
+        CreateMap<Reviewer, ReviewerDto>();
     }
 }
