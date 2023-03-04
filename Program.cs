@@ -1,9 +1,9 @@
+using System.Text.Json.Serialization;
 using LightNovelDb;
 using LightNovelDb.Data;
 using LightNovelDb.Interfaces;
 using LightNovelDb.Repository;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<Seed>();
+builder.Services.AddControllers().AddJsonOptions(x => 
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<INovelRepository, NovelRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
