@@ -11,10 +11,12 @@ namespace LightNovelDb.Controllers;
 public class AuthorController : Controller
 {
     private readonly IAuthorRepository _authorRepository;
+    private readonly ICountryRepository _countryRepository;
     private readonly IMapper _mapper;
-    public AuthorController(IAuthorRepository authorRepository, IMapper mapper)
+    public AuthorController(IAuthorRepository authorRepository, ICountryRepository countryRepository, IMapper mapper)
     {
         _authorRepository = authorRepository;
+        _countryRepository = countryRepository;
         _mapper = mapper;
     }
     
@@ -60,5 +62,39 @@ public class AuthorController : Controller
             return BadRequest(ModelState);
         
         return Ok(author);
+    }
+    
+    [HttpPost]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public IActionResult CreateAuthor([FromQuery] int countryId, [FromBody] AuthorDto authorCreate)
+    {
+        if (authorCreate == null)
+            return BadRequest(ModelState);
+
+        var author = _authorRepository
+            .GetAuthors()
+            .FirstOrDefault(g => g.LastName.Trim().ToUpper() == authorCreate.LastName.TrimEnd().ToUpper());
+
+        if (author != null)
+        {
+            ModelState.AddModelError("", "Author already exists!");
+            return StatusCode(422, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var authorMap = _mapper.Map<Author>(authorCreate);
+
+        authorMap.Country = _countryRepository.GetCountry(countryId);
+
+        if (!_authorRepository.AddAuthor(authorMap))
+        {
+            ModelState.AddModelError("", "Something went wrong saving the author");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Successfully added author!");
     }
 }
