@@ -9,4 +9,6 @@ public interface INovelRepository
     Novel GetNovel(string title);
     decimal GetNovelRating(int id);
     bool NovelExists(int novelId);
+    bool AddNovel(int authorId, int genreId, Novel novel);
+    bool Save();
 }

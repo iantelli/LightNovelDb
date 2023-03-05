@@ -62,4 +62,37 @@ public class NovelController : Controller
         return Ok(rating);
     }
     
+    [HttpPost]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public IActionResult CreateAuthor([FromQuery] int countryId, [FromQuery] int genreId, [FromBody] NovelDto novelCreate)
+    {
+        if (novelCreate == null)
+            return BadRequest(ModelState);
+
+        var author = _authorRepository
+            .GetAuthors()
+            .FirstOrDefault(g => g.LastName.Trim().ToUpper() == authorCreate.LastName.TrimEnd().ToUpper());
+
+        if (author != null)
+        {
+            ModelState.AddModelError("", "Author already exists!");
+            return StatusCode(422, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var authorMap = _mapper.Map<Author>(authorCreate);
+
+        authorMap.Country = _countryRepository.GetCountry(countryId);
+
+        if (!_authorRepository.AddAuthor(authorMap))
+        {
+            ModelState.AddModelError("", "Something went wrong saving the author");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Successfully added author!");
+    }
 }

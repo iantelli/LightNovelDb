@@ -42,4 +42,32 @@ public class NovelRepository : INovelRepository
     {
         return _context.Novels.Any(n => n.Id == novelId);
     }
+    public bool AddNovel(int authorId, int genreId, Novel novel)
+    {
+        var novelAuthorEntity = _context.Authors.Where(a => a.Id == authorId).FirstOrDefault();
+        var novelGenreEntity = _context.Genres.Where(g => g.Id == genreId).FirstOrDefault();
+
+        var novelAuthor = new NovelAuthor()
+        {
+            Author = novelAuthorEntity,
+            Novel = novel,
+        };
+
+        var novelGenre = new NovelGenre()
+        {
+            Genre = novelGenreEntity,
+            Novel = novel,
+        };
+        
+        _context.Add(novelAuthor);
+        _context.Add(novelGenre);
+        _context.Add(novel);
+        
+        return Save();
+    }
+    public bool Save()
+    {
+        var saved = _context.SaveChanges();
+        return saved > 0 ? true : false;
+    }
 }
