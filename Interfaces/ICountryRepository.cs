@@ -9,4 +9,6 @@ public interface ICountryRepository
     Country GetCountryByAuthor(int authorId);
     ICollection<Author> GetAuthorsByCountry(int countryId);
     bool CountryExists(int id);
+    bool AddCountry(Country country);
+    bool Save();
 }
