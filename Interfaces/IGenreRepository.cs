@@ -8,5 +8,6 @@ public interface IGenreRepository
     Genre GetGenre(int id);
     ICollection<Novel> GetNovelsByGenre(int genreId);
     bool GenreExists(int id);
-
+    bool CreateGenre(Genre genre);
+    bool Save();
 }

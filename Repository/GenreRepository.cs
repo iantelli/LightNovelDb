@@ -15,7 +15,17 @@ public class GenreRepository : IGenreRepository
     {
         return _context.Genres.Any(g => g.Id == id);
     }
-    
+    public bool CreateGenre(Genre genre)
+    {
+        _context.Add(genre);
+        return Save();
+    }
+    public bool Save()
+    {
+        var saved = _context.SaveChanges();
+        return saved > 0 ? true : false;
+    }
+
     public Genre GetGenre(int id)
     {
         return _context.Genres.Where(g => g.Id == id).FirstOrDefault();

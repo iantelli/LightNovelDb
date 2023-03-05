@@ -10,6 +10,7 @@ public class MappingProfile : Profile
     {
         CreateMap<Novel, NovelDto>();
         CreateMap<Genre, GenreDto>();
+        CreateMap<GenreDto, Genre>();
         CreateMap<Country, CountryDto>();
         CreateMap<Author, AuthorDto>();
         CreateMap<Review, ReviewDto>();

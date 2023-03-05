@@ -58,5 +58,36 @@ public class GenreController : Controller
 
         return Ok(novels);
     }
-    
+
+    [HttpPost]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public IActionResult CreateGenre([FromBody] GenreDto genreCreate)
+    {
+        if (genreCreate == null)
+            return BadRequest(ModelState);
+
+        var genre = _genreRepository
+            .GetGenres()
+            .FirstOrDefault(g => g.Name.Trim().ToUpper() == genreCreate.Name.TrimEnd().ToUpper());
+
+        if (genre != null)
+        {
+            ModelState.AddModelError("", "Genre already exists!");
+            return StatusCode(422, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var genreMap = _mapper.Map<Genre>(genreCreate);
+
+        if (!_genreRepository.CreateGenre(genreMap))
+        {
+            ModelState.AddModelError("", "Something went wrong saving the genre");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Successfully created genre!");
+    }
 }
