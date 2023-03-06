@@ -110,12 +110,6 @@ public class AuthorController : Controller
         if (!_authorRepository.AuthorExists(authorId))
             return NotFound();
 
-        if (_authorRepository.AuthorExists(authorId))
-        {
-            ModelState.AddModelError("", "Author already exists!");
-            return StatusCode(422, ModelState);
-        }
-
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
@@ -127,6 +121,6 @@ public class AuthorController : Controller
             return StatusCode(500, ModelState);
         }
 
-        return Ok("Successfully updated author!");
+        return NoContent();
     }
 }

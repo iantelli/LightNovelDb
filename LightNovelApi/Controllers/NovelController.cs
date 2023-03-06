@@ -11,10 +11,12 @@ namespace LightNovelApi.Controllers;
 public class NovelController : Controller
 {
     private readonly INovelRepository _novelRepository;
+    private readonly IReviewRepository _reviewRepository;
     private readonly IMapper _mapper;
-    public NovelController(INovelRepository novelRepository, IMapper mapper)
+    public NovelController(INovelRepository novelRepository, IReviewRepository reviewRepository,  IMapper mapper)
     {
         _novelRepository = novelRepository;
+        _reviewRepository = reviewRepository;
         _mapper = mapper;
     }
 
@@ -90,6 +92,28 @@ public class NovelController : Controller
 
         ModelState.AddModelError("", "Something went wrong saving the novel");
         return StatusCode(500, ModelState);
+    }
+    
+    [HttpPut("{novelId:int}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public IActionResult UpdateNovel(int novelId, [FromQuery] int authorId, [FromQuery] int genreId, [FromBody] NovelDto updatedNovel)
+    {
+        if (updatedNovel == null)
+            return BadRequest(ModelState);
 
+        if (novelId != updatedNovel.Id)
+            return NotFound();
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var novelMap = _mapper.Map<Novel>(updatedNovel);
+
+        if (_novelRepository.UpdateNovel(authorId, genreId, novelMap))
+            return Ok("Successfully updated novel!");
+
+        ModelState.AddModelError("", "Something went wrong updating the novel");
+        return StatusCode(500, ModelState);
     }
 }
