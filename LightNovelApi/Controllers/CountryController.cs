@@ -93,4 +93,36 @@ public class CountryController : Controller
 
         return Ok("Successfully added country!");
     }
+    
+    [HttpPut("{countryId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateCountry(int countryId, [FromBody] CountryDto countryUpdate)
+    {
+        if (countryUpdate == null)
+            return BadRequest(ModelState);
+
+        if (!_countryRepository.CountryExists(countryId))
+            return NotFound();
+
+        if (_countryRepository.CountryExists(countryId))
+        {
+            ModelState.AddModelError("", "Country already exists!");
+            return StatusCode(422, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var countryMap = _mapper.Map<Country>(countryUpdate);
+
+        if (!_countryRepository.UpdateCountry(countryMap))
+        {
+            ModelState.AddModelError("", "Something went wrong updating the country");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Successfully updated country!");
+    }
 }
