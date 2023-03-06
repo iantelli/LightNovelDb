@@ -1,7 +1,7 @@
-﻿using LightNovelDb.Models;
+﻿using LightNovelApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LightNovelDb.Data;
+namespace LightNovelApi.Data;
 
 public class DataContext : DbContext
 {

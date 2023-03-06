@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using LightNovelDb.Dto;
-using LightNovelDb.Interfaces;
-using LightNovelDb.Models;
+using LightNovelApi.Dto;
+using LightNovelApi.Interfaces;
+using LightNovelApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LightNovelDb.Controllers;
+namespace LightNovelApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -65,14 +65,14 @@ public class NovelController : Controller
     [HttpPost]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
-    public IActionResult CreateAuthor([FromQuery] int authorId, [FromQuery] int genreId, [FromBody] NovelDto novelCreate)
+    public IActionResult AddNovel([FromQuery] int authorId, [FromQuery] int genreId, [FromBody] NovelDto novelCreate)
     {
         if (novelCreate == null)
             return BadRequest(ModelState);
 
-        var novels = _novelRepository.GetNovels()
-            .Where(n => n.Title.Trim().ToUpper() == novelCreate.Title.Trim().ToUpper())
-            .FirstOrDefault();
+        var novels = _novelRepository
+            .GetNovels()
+            .FirstOrDefault(n => n.Title.Trim().ToUpper() == novelCreate.Title.TrimEnd().ToUpper());
 
         if (novels != null)
         {
@@ -85,12 +85,11 @@ public class NovelController : Controller
 
         var novelMap = _mapper.Map<Novel>(novelCreate);
 
-        if (!_novelRepository.AddNovel(authorId, genreId, novelMap))
-        {
-            ModelState.AddModelError("", "Something went wrong saving the author");
-            return StatusCode(500, ModelState);
-        }
+        if (_novelRepository.AddNovel(authorId, genreId, novelMap))
+            return Ok("Successfully added novel!");
 
-        return Ok("Successfully added novel!");
+        ModelState.AddModelError("", "Something went wrong saving the novel");
+        return StatusCode(500, ModelState);
+
     }
 }

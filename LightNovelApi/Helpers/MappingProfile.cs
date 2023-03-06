@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using LightNovelDb.Dto;
-using LightNovelDb.Models;
+using LightNovelApi.Dto;
+using LightNovelApi.Models;
 
-namespace LightNovelDb.Helpers;
+namespace LightNovelApi.Helpers;
 
 public class MappingProfile : Profile
 {
@@ -12,7 +12,7 @@ public class MappingProfile : Profile
         CreateMap<Genre, GenreDto>().ReverseMap();
         CreateMap<Country, CountryDto>().ReverseMap();
         CreateMap<Author, AuthorDto>().ReverseMap();
-        CreateMap<Review, ReviewDto>();
-        CreateMap<Reviewer, ReviewerDto>();
+        CreateMap<Review, ReviewDto>().ReverseMap();
+        CreateMap<Reviewer, ReviewerDto>().ReverseMap();
     }
 }

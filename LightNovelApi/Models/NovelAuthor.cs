@@ -1,4 +1,4 @@
-﻿namespace LightNovelDb.Models;
+﻿namespace LightNovelApi.Models;
 
 public class NovelAuthor
 {

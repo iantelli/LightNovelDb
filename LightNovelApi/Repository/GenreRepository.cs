@@ -1,8 +1,8 @@
-﻿using LightNovelDb.Data;
-using LightNovelDb.Interfaces;
-using LightNovelDb.Models;
+﻿using LightNovelApi.Data;
+using LightNovelApi.Interfaces;
+using LightNovelApi.Models;
 
-namespace LightNovelDb.Repository;
+namespace LightNovelApi.Repository;
 
 public class GenreRepository : IGenreRepository
 {
@@ -22,8 +22,7 @@ public class GenreRepository : IGenreRepository
     }
     public bool Save()
     {
-        var saved = _context.SaveChanges();
-        return saved > 0 ? true : false;
+        return _context.SaveChanges() > 0 ? true : false;
     }
 
     public Genre GetGenre(int id)

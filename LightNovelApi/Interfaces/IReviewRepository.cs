@@ -1,6 +1,6 @@
-﻿using LightNovelDb.Models;
+﻿using LightNovelApi.Models;
 
-namespace LightNovelDb.Interfaces;
+namespace LightNovelApi.Interfaces;
 
 public interface IReviewRepository
 {
@@ -8,4 +8,6 @@ public interface IReviewRepository
     Review GetReview(int reviewId);
     ICollection<Review> GetReviewsOfANovel(int novelId);
     bool ReviewExists(int reviewId);
+    bool CreateReview(Review review);
+    bool Save();
 }

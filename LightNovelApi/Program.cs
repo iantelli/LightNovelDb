@@ -1,8 +1,9 @@
 using System.Text.Json.Serialization;
+using LightNovelApi;
+using LightNovelApi.Data;
+using LightNovelApi.Interfaces;
+using LightNovelApi.Repository;
 using LightNovelDb;
-using LightNovelDb.Data;
-using LightNovelDb.Interfaces;
-using LightNovelDb.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

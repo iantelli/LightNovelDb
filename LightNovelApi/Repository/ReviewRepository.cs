@@ -1,8 +1,8 @@
-﻿using LightNovelDb.Data;
-using LightNovelDb.Interfaces;
-using LightNovelDb.Models;
+﻿using LightNovelApi.Data;
+using LightNovelApi.Interfaces;
+using LightNovelApi.Models;
 
-namespace LightNovelDb.Repository;
+namespace LightNovelApi.Repository;
 
 public class ReviewRepository : IReviewRepository
 {
@@ -23,11 +23,20 @@ public class ReviewRepository : IReviewRepository
 
     public ICollection<Review> GetReviewsOfANovel(int novelId)
     {
-        return _context.Reviews.Where(n => n.Id == novelId).ToList();
+        return _context.Reviews.Where(r => r.Novel.Id == novelId).ToList();
     }
 
     public bool ReviewExists(int reviewId)
     {
         return _context.Reviews.Any(r => r.Id == reviewId);
+    }
+    public bool CreateReview(Review review)
+    {
+        _context.Add(review);
+        return Save();
+    }
+    public bool Save()
+    {
+        return _context.SaveChanges() > 0 ? true : false;
     }
 }

@@ -1,7 +1,7 @@
-﻿using LightNovelDb.Data;
-using LightNovelDb.Models;
+﻿using LightNovelApi.Data;
+using LightNovelApi.Models;
 
-namespace LightNovelDb;
+namespace LightNovelApi;
 
 public class Seed
 {

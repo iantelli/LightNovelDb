@@ -1,6 +1,6 @@
-﻿using LightNovelDb.Models;
+﻿using LightNovelApi.Models;
 
-namespace LightNovelDb.Interfaces;
+namespace LightNovelApi.Interfaces;
 
 public interface IReviewerRepository
 {

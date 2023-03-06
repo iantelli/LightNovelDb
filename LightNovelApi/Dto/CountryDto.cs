@@ -1,4 +1,4 @@
-﻿namespace LightNovelDb.Dto;
+﻿namespace LightNovelApi.Dto;
 
 public class CountryDto
 {

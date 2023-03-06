@@ -1,9 +1,9 @@
-﻿using LightNovelDb.Data;
-using LightNovelDb.Interfaces;
-using LightNovelDb.Models;
+﻿using LightNovelApi.Data;
+using LightNovelApi.Interfaces;
+using LightNovelApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LightNovelDb.Repository;
+namespace LightNovelApi.Repository;
 
 public class ReviewerRepository : IReviewerRepository
 {

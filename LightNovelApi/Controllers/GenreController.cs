@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using LightNovelDb.Dto;
-using LightNovelDb.Interfaces;
-using LightNovelDb.Models;
+using LightNovelApi.Dto;
+using LightNovelApi.Interfaces;
+using LightNovelApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LightNovelDb.Controllers;
+namespace LightNovelApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
