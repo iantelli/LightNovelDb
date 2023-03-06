@@ -20,21 +20,23 @@ public class GenreRepository : IGenreRepository
         _context.Add(genre);
         return Save();
     }
+    public bool UpdateGenre(Genre genre)
+    {
+        _context.Update(genre);
+        return Save();
+    }
     public bool Save()
     {
         return _context.SaveChanges() > 0 ? true : false;
     }
-
     public Genre GetGenre(int id)
     {
         return _context.Genres.Where(g => g.Id == id).FirstOrDefault();
     }
-    
     public ICollection<Genre> GetGenres()
     {
         return _context.Genres.ToList();
     }
-    
     public ICollection<Novel> GetNovelsByGenre(int genreId)
     {
         return _context.NovelGenres.Where(g => g.GenreId == genreId).Select(n => n.Novel).ToList();

@@ -3,6 +3,7 @@ using LightNovelApi.Dto;
 using LightNovelApi.Interfaces;
 using LightNovelApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LightNovelApi.Controllers;
 
@@ -89,5 +90,34 @@ public class GenreController : Controller
         }
 
         return Ok("Successfully created genre!");
+    }
+
+    [HttpPut("{genreId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateGenre(int genreId, [FromBody] GenreDto updatedGenre)
+    {
+        if (updatedGenre == null)
+            return BadRequest(ModelState);
+        
+        if (genreId != updatedGenre.Id)
+            return BadRequest(ModelState);
+        
+        if(!_genreRepository.GenreExists(genreId))
+            return NotFound();
+
+        if (!ModelState.IsValid)
+            return BadRequest();
+        
+        var genreMap = _mapper.Map<Genre>(updatedGenre);
+        
+        if (!_genreRepository.UpdateGenre(genreMap))
+        {
+            ModelState.AddModelError("", "Something went wrong updating the genre");
+            return StatusCode(500, ModelState);
+        }
+
+        return NoContent();
     }
 }
