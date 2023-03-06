@@ -97,4 +97,36 @@ public class AuthorController : Controller
 
         return Ok("Successfully added author!");
     }
+    
+    [HttpPut("{authorId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateAuthor(int authorId, [FromBody] AuthorDto updatedAuthor)
+    {
+        if (updatedAuthor == null)
+            return BadRequest(ModelState);
+
+        if (!_authorRepository.AuthorExists(authorId))
+            return NotFound();
+
+        if (_authorRepository.AuthorExists(authorId))
+        {
+            ModelState.AddModelError("", "Author already exists!");
+            return StatusCode(422, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var authorMap = _mapper.Map<Author>(updatedAuthor);
+
+        if (!_authorRepository.UpdateAuthor(authorMap))
+        {
+            ModelState.AddModelError("", "Something went wrong updating the author");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Successfully updated author!");
+    }
 }

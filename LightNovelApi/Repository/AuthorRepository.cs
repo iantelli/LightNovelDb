@@ -40,6 +40,11 @@ public class AuthorRepository : IAuthorRepository
         _context.Add(author);
         return Save();
     }
+    public bool UpdateAuthor(Author author)
+    {
+        _context.Update(author);
+        return Save();
+    }
     public bool Save()
     {
         return _context.SaveChanges() > 0 ? true : false;

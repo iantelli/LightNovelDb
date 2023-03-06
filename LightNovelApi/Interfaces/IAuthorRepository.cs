@@ -10,5 +10,6 @@ public interface IAuthorRepository
     ICollection<Novel> GetNovelsByAuthor(int authorId);
     bool AuthorExists(int id);
     bool AddAuthor(Author author);
+    bool UpdateAuthor(Author author);
     bool Save();
 }
