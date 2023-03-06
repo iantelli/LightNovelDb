@@ -8,7 +8,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Novel, NovelDto>();
+        CreateMap<Novel, NovelDto>().ReverseMap();
         CreateMap<Genre, GenreDto>().ReverseMap();
         CreateMap<Country, CountryDto>().ReverseMap();
         CreateMap<Author, AuthorDto>().ReverseMap();

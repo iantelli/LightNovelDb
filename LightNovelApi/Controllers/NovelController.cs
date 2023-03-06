@@ -65,34 +65,32 @@ public class NovelController : Controller
     [HttpPost]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
-    public IActionResult CreateAuthor([FromQuery] int countryId, [FromQuery] int genreId, [FromBody] NovelDto novelCreate)
+    public IActionResult CreateAuthor([FromQuery] int authorId, [FromQuery] int genreId, [FromBody] NovelDto novelCreate)
     {
         if (novelCreate == null)
             return BadRequest(ModelState);
 
-        var author = _authorRepository
-            .GetAuthors()
-            .FirstOrDefault(g => g.LastName.Trim().ToUpper() == authorCreate.LastName.TrimEnd().ToUpper());
+        var novels = _novelRepository.GetNovels()
+            .Where(n => n.Title.Trim().ToUpper() == novelCreate.Title.Trim().ToUpper())
+            .FirstOrDefault();
 
-        if (author != null)
+        if (novels != null)
         {
-            ModelState.AddModelError("", "Author already exists!");
+            ModelState.AddModelError("", "Novel already exists!");
             return StatusCode(422, ModelState);
         }
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var authorMap = _mapper.Map<Author>(authorCreate);
+        var novelMap = _mapper.Map<Novel>(novelCreate);
 
-        authorMap.Country = _countryRepository.GetCountry(countryId);
-
-        if (!_authorRepository.AddAuthor(authorMap))
+        if (!_novelRepository.AddNovel(authorId, genreId, novelMap))
         {
             ModelState.AddModelError("", "Something went wrong saving the author");
             return StatusCode(500, ModelState);
         }
 
-        return Ok("Successfully added author!");
+        return Ok("Successfully added novel!");
     }
 }
