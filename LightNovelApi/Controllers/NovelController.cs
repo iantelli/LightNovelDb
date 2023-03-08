@@ -94,9 +94,10 @@ public class NovelController : Controller
         return StatusCode(500, ModelState);
     }
     
-    [HttpPut("{novelId:int}")]
+    [HttpPut("{novelId}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     public IActionResult UpdateNovel(int novelId, [FromQuery] int authorId, [FromQuery] int genreId, [FromBody] NovelDto updatedNovel)
     {
         if (updatedNovel == null)
@@ -114,6 +115,31 @@ public class NovelController : Controller
             return Ok("Successfully updated novel!");
 
         ModelState.AddModelError("", "Something went wrong updating the novel");
+        return StatusCode(500, ModelState);
+    }
+    
+    [HttpDelete("{novelId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult DeleteNovel(int novelId)
+    {
+        if (!_novelRepository.NovelExists(novelId))
+            return NotFound();
+
+        var reviews = _reviewRepository.GetReviewsOfANovel(novelId);
+        var novel = _novelRepository.GetNovel(novelId);
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        if(!_reviewRepository.DeleteReviews(reviews.ToList()))
+            return StatusCode(500, ModelState);
+
+        if (_novelRepository.DeleteNovel(novel))
+            return Ok("Successfully deleted novel!");
+
+        ModelState.AddModelError("", "Something went wrong deleting the novel");
         return StatusCode(500, ModelState);
     }
 }

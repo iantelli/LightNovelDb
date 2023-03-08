@@ -120,4 +120,27 @@ public class GenreController : Controller
 
         return NoContent();
     }
+    
+    [HttpDelete("{genreId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult DeleteGenre(int genreId)
+    {
+        if (!_genreRepository.GenreExists(genreId))
+            return NotFound();
+
+        var genre = _genreRepository.GetGenre(genreId);
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        if (!_genreRepository.DeleteGenre(genre))
+        {
+            ModelState.AddModelError("", "Something went wrong deleting the genre");
+            return StatusCode(500, ModelState);
+        }
+
+        return NoContent();
+    }
 }

@@ -105,6 +105,11 @@ public class NovelRepository : INovelRepository
         _context.Update(novel);
         return Save();
     }
+    public bool DeleteNovel(Novel novel)
+    {
+        _context.Remove(novel);
+        return Save();
+    }
     public bool Save()
     {
         return _context.SaveChanges() > 0 ? true : false;

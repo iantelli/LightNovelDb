@@ -25,6 +25,11 @@ public class GenreRepository : IGenreRepository
         _context.Update(genre);
         return Save();
     }
+    public bool DeleteGenre(Genre genre)
+    {
+        _context.Remove(genre);
+        return Save();
+    }
     public bool Save()
     {
         return _context.SaveChanges() > 0 ? true : false;

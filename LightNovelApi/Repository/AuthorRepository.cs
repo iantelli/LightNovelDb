@@ -45,6 +45,11 @@ public class AuthorRepository : IAuthorRepository
         _context.Update(author);
         return Save();
     }
+    public bool DeleteAuthor(Author author)
+    {
+        _context.Remove(author);
+        return Save();
+    }
     public bool Save()
     {
         return _context.SaveChanges() > 0 ? true : false;

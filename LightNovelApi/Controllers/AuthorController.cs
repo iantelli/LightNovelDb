@@ -126,4 +126,27 @@ public class AuthorController : Controller
 
         return NoContent();
     }
+    
+    [HttpDelete("{authorId}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult DeleteAuthor(int authorId)
+    {
+        if (!_authorRepository.AuthorExists(authorId))
+            return NotFound();
+
+        var author = _authorRepository.GetAuthor(authorId);
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        if (!_authorRepository.DeleteAuthor(author))
+        {
+            ModelState.AddModelError("", "Something went wrong deleting the author");
+            return StatusCode(500, ModelState);
+        }
+
+        return NoContent();
+    }
 }

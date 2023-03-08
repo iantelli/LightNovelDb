@@ -11,5 +11,6 @@ public interface IAuthorRepository
     bool AuthorExists(int id);
     bool AddAuthor(Author author);
     bool UpdateAuthor(Author author);
+    bool DeleteAuthor(Author author);
     bool Save();
 }
