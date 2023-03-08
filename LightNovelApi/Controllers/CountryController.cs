@@ -106,12 +106,6 @@ public class CountryController : Controller
         if (!_countryRepository.CountryExists(countryId))
             return NotFound();
 
-        if (_countryRepository.CountryExists(countryId))
-        {
-            ModelState.AddModelError("", "Country already exists!");
-            return StatusCode(422, ModelState);
-        }
-
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
@@ -123,6 +117,6 @@ public class CountryController : Controller
             return StatusCode(500, ModelState);
         }
 
-        return Ok("Successfully updated country!");
+        return NoContent();
     }
 }

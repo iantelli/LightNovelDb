@@ -107,6 +107,9 @@ public class AuthorController : Controller
         if (updatedAuthor == null)
             return BadRequest(ModelState);
 
+        if (authorId != updatedAuthor.Id)
+            return BadRequest(ModelState);
+
         if (!_authorRepository.AuthorExists(authorId))
             return NotFound();
 
